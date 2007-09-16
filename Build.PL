@@ -9,9 +9,8 @@ my $build = Module::Build->new(
     module_name        => 'Math::Expression::Evaluator',
     dist_author        => 'Moritz Lenz',
     dist_abstract      => undef,
-    dist_version       => '0.0.1',
+    dist_version       => '0.0.2',
     requires => {
-        'Regexp::Common'     => 0,
         'Carp'               => 0,
         'Math::Trig'         => 0,
     },

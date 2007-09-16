@@ -1,0 +1,23 @@
+---
+name: Math-Expression-Evaluator
+version: 0.0.1
+author:
+  - Moritz Lenz
+abstract: parses and evaluates mathematic expressions
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  Carp: 0
+  Math::Trig: 0
+  Regexp::Common: 0
+provides:
+  Math::Expression::Evaluator:
+    file: lib/Math/Expression/Evaluator.pm
+    version: 0.0.1
+  Math::Expression::Evaluator::Lexer:
+    file: lib/Math/Expression/Evaluator/Lexer.pm
+generated_by: Module::Build version 0.2808
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

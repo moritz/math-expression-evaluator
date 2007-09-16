@@ -1,0 +1,21 @@
+Build.PL
+lib/Math/Expression/.Evaluator.pm.swp
+lib/Math/Expression/Evaluator.pm
+lib/Math/Expression/Evaluator/Lexer.pm
+MANIFEST			This list of files
+t/.parsefails.t.swp
+t/00-use.t
+t/01-pod.t
+t/02-pod-coverage.t
+t/builtins.t
+t/exec-fails.t
+t/infix.t
+t/multiple-expressions.t
+t/null.t
+t/parsefails.t
+t/precedence.t
+t/prefix.t
+t/variables.t
+Makefile.PL
+README
+META.yml

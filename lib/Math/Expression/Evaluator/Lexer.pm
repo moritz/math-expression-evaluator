@@ -20,7 +20,8 @@ Math::Expression::Evaluator::Lexer - Simple Lexer
         ['Whitespace',      qr/\s/, sub { return undef; }],
          );
     my $text = "-12 * (3+4)";
-    foreach (lex($text, \@input_tokens){
+    my $out_tokens = lex($text, \@input_tokens);
+    for (@$out_tokens){
         my ($name, $text) = @$_;
         print "Found Token $name: $text\n";
     }
@@ -36,11 +37,19 @@ into tokens, depending on the input tokens you provide
 
 =item lex
 
-The only exported method is lex, which expects input text as its first argument and a array ref to list of input tokens.
+The only exported method is lex, which expects input text as its 
+first argument and a array ref to list of input tokens.
 
-Each input token consists of a token name (which you can choose freely), a regexwhich matches the desired token, and optionally a reference to a functions that takes the matched token text as its argument. The token text is replaced by the return value of that function. If the function returns undef, that token will not be included in the list of output tokens.
+Each input token consists of a token name (which you can choose freely), 
+a regex which matches the desired token, and optionally a reference to 
+a functions that takes the matched token text as its argument. The 
+token text is replaced by the return value of that function. If the 
+function returns undef, that token will not be included in the list 
+of output tokens.
 
-lex() returns a list of output tokens, each output token is a reference to a list which contains the token name and the matched text.
+lex() returns an array ref to a list of output tokens, each output 
+token is a reference to a list which contains the token name and 
+the matched text.
 
 =back
 
@@ -102,7 +111,7 @@ REGEXES:
             confess("No token matched input text <$text> at position $old_pos");
         }
     }
-    return @res;
+    return \@res;
 }
 
 1;

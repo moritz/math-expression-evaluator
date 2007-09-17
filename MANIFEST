@@ -1,9 +1,14 @@
 Build.PL
-lib/Math/Expression/.Evaluator.pm.swp
+Changes
 lib/Math/Expression/Evaluator.pm
 lib/Math/Expression/Evaluator/Lexer.pm
+lib/Math/Expression/Evaluator/Optimizer.pm
+lib/Math/Expression/Evaluator/Parser.pm
+lib/Math/Expression/Evaluator/Util.pm
+Makefile.PL
 MANIFEST			This list of files
-t/.parsefails.t.swp
+META.yml
+README
 t/00-use.t
 t/01-pod.t
 t/02-pod-coverage.t
@@ -12,10 +17,9 @@ t/exec-fails.t
 t/infix.t
 t/multiple-expressions.t
 t/null.t
+t/numbers.t
+t/optimize.t
 t/parsefails.t
 t/precedence.t
 t/prefix.t
 t/variables.t
-Makefile.PL
-README
-META.yml

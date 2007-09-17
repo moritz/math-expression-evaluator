@@ -146,7 +146,13 @@ the same terms as perl itself.
 
 =head1 AUTHOR
 
-    Moritz Lenz, L<http://moritz.faui2k3.org/>, moritz@faui2k3.org
+Moritz Lenz, L<http://moritz.faui2k3.org/>, moritz@faui2k3.org
+
+=head1 DEVELOPMENT
+
+You can obtain the latest development version via subversion:
+
+    svn co https://casella.verplant.org/svn/moritz/cpan/Math-Expression-Evaluator/
 
 =cut
 

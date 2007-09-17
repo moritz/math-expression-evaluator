@@ -1,0 +1,12 @@
+Revision History for Perl module Math::Expression::Evaluator
+
+0.0.2 Mon Sep 17 13:34:27 CEST 2007
+- Splitted MEE::Util and MEE::Parser from main module
+- Added optimize() and the underlying MEE::Optimizer
+- Most tests now run once with optimize() and once without
+- Added LICENSE section to ME::Evaluator
+- Dropped Regexp::Common dependency
+- Added this Changes file
+
+0.0.1 Mon Sep 10 13:13:13 CEST 2007
+- Initial release

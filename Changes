@@ -1,5 +1,8 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.0.3 Tue Sep 18 08:21:21 CEST 2007
+- Dropped 'use Regexp::Common' 
+
 0.0.2 Mon Sep 17 13:34:27 CEST 2007
 - Splitted MEE::Util and MEE::Parser from main module
 - Added optimize() and the underlying MEE::Optimizer

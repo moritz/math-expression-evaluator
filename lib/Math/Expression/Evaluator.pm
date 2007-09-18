@@ -6,7 +6,6 @@ use Math::Expression::Evaluator::Util qw(is_lvalue simplify_ast);
 #use Data::Dumper;
 use Carp;
 
-use Regexp::Common;
 use Math::Trig qw(atan asin acos tan);
 
 our $VERSION = '0.0.2';

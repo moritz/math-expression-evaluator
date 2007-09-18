@@ -4,7 +4,8 @@ use warnings;
 
 =head1 NAME
 
-Math::Expression::Evaluator::Optimizer - Optimize M::E::E ASTs
+Math::Expression::Evaluator::Optimizer - 
+Optimize Math::Expression::Evaluator ASTs
 
 =head1 SYNOPSIS
 

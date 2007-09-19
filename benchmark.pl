@@ -2,12 +2,13 @@
 use strict;
 use warnings;
 
+use lib 'lib';
 use Carp qw(confess);
 use Benchmark qw(cmpthese);
 use Math::Expression::Evaluator;
 use Data::Dumper;
 
-my $statement = '2 + a + 5 + 7';
+my $statement = '2 + a + 5 + (3+4)';
 
 my $test = Math::Expression::Evaluator->new($statement);
 print Dumper $test->{ast};
@@ -32,8 +33,8 @@ sub no_optimize {
 }
 
 my %tests = (
-        optimize       => sub { with_optimize(20) },
-        no_optimize    => sub { no_optimize(20) },
+        optimize       => sub { with_optimize(10) },
+        no_optimize    => sub { no_optimize(10) },
 );
 #for (100,1000,10000){
 #    print $_, "\n";

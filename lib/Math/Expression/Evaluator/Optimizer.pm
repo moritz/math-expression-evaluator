@@ -40,6 +40,30 @@ is simplified to C<var + 5>. Works only with sums and products (but internally
 a C<2 - 3 + x> is represented as C<2 + (-3) + x>, so it actually works with 
 differences and divisions as well).
 
+=item * 
+
+Flattening of nested sub expression: C<a * (3 * b)> is flattened into 
+C<a * 3 * b>. Currently this is done before any other optimization and not 
+repeated.
+
+=back
+
+=head1 PERFORMANCE CONSIDERATIONS
+
+C<optimize()> currently takes two full loops through the AST, copying and 
+recreating it. If you execute C<val()> only once, calling C<optimize()>
+is in fact a performance loss.
+
+If the expression is optimizable, and you execute it C<$n> times, you
+usually have a net gain over unoptimized execution if C<< $n > 15 >>.
+
+Of course that value depends on the complexity of the expression, and how
+well it can be reduced by the implemented optimizations.
+
+Your best is to always benchmark what you do. If you are really serious about
+performance, you can use L<Math::Calculus::Expression> and its method 
+C<simplify>.
+
 =cut
 
 my %is_commutative = (
@@ -48,6 +72,41 @@ my %is_commutative = (
         );
 
 sub _optimize {
+    my ($expr, $ast) = @_;
+    return _partial_execute($expr, _flatten($ast));
+}
+
+# Note: if you ever want to introduce some kind of scoping that is 
+# tied to blocks, remove the '{' here.
+my %flattable = map { $_ => 1 } ('{', '+', '*');
+
+sub _flatten {
+    my ($ast) = @_;
+    return $ast unless ref $ast;
+
+    my $type = shift @$ast;
+    my @new_nodes = ($type);
+    if ($flattable{$type}){
+        # interpolate AST nodes with the same type
+        # e.g. ['+', 2, ['+', 3, 4]] into ['+', 2, 3, 4]
+        for (map { _flatten($_) } @$ast){
+            if (ref $_ and $_->[0] eq $type){
+                my @inner_nodes = @$_;
+                shift @inner_nodes;
+                push @new_nodes, @inner_nodes;
+            } else {
+                push @new_nodes, $_;
+            }
+        }
+    } else {
+        push @new_nodes, map { _flatten($_) } @$ast;
+    }
+    return \@new_nodes;
+}
+
+
+# _parital_execute reduces constant subexpressions to a minimal form.
+sub _partial_execute {
     my ($expr, $ast) = @_;
     if (ref $ast){
         my @nodes = @$ast;
@@ -96,6 +155,7 @@ sub _optimize {
     } else {
         return $ast;
     }
+
 }
 
 1;

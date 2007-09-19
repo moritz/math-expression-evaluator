@@ -1,5 +1,11 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.0.4 Wed Sep 19 17:51:01 CEST 2007
+- add variables() method
+- more documentation on optimization
+- added another optimization method (flattening)
+- test that prove optimize() actually does something
+
 0.0.3 Tue Sep 18 08:21:21 CEST 2007
 - Dropped 'use Regexp::Common' 
 

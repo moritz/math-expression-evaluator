@@ -140,6 +140,29 @@ The AST can be accessed as C<$obj->{ast}>. Its structure is described in
 L<Math::Expression::Evaluator::Parser> (or you can use L<Data::Dumper> 
 to figure it out for yourself).
 
+=head1 SEE ALSO
+
+=head2 Other Modules in this Distribution
+
+L<Math::Expression::Evaluator::Lexer> breaks the input string into tokens.
+
+L<Math::Expression::Evaluator::Parser> turns the tokens into a parse 
+tree / AST. 
+
+L<Math::Expression::Evaluator::Optimizer> contains routines that simplify 
+and optinize the AST.
+
+L<Math::Expression::Evaluator::Util> contains common routines that are used
+in various of the other modules and shouldn't be of much interest for you.
+
+=head2 Other Distributions
+
+L<Math::Expression> also evaluates mathematical expressions, but also handles
+string operations.
+
+If you want to do symbolic (aka algebraic) transformations, L<Math::Symbolic> 
+will fit your needs.
+
 =head1 LICENSE
 
 This module is free software. You may use, redistribute and modify it under

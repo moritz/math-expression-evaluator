@@ -1,5 +1,8 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.0.5
+- Added "See Also" list to MEE documentation
+
 0.0.4 Wed Sep 19 17:51:01 CEST 2007
 - add variables() method
 - more documentation on optimization

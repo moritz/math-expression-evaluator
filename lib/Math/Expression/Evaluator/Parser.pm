@@ -98,6 +98,16 @@ my @input_tokens = (
         ['Whitespace'       => '\s+', sub {return undef}],
         ['Comment'          => qr/\#.*?$/, sub {return undef}],
 );
+
+my %token_description = (
+        ExpOp           => 'Operator',
+        MulOp           => 'Operator',
+        AddOp           => 'Operator',
+        AssignmentOp    => 'Operator',
+        Float           => 'Term',
+        Name            => 'Term',
+);
+
 sub parse {
 
     my ($text, $parse_opts) = @_;
@@ -113,7 +123,7 @@ sub parse {
 }
 
 # checks if the next token is what you expected, for example
-# _is_next_token("AddOp") checks, if the next token is a '+' or '-'
+# _is_next_token("AddOp") checks if the next token is a '+' or '-'
 sub _is_next_token {
     my $self = shift;
     my $cmp = shift;
@@ -170,9 +180,11 @@ sub _program {
 sub _expected {
     my $self = shift;
     if (scalar @_ > 1){
-        confess("Parse error: Expected $_[0]; got: $_[1]\n");
+        confess("Parse error: Expected $_[0]; got: '$_[1]'\n"
+                . "near character " . $self->_next_token->[2] . "\n");
     } else {
-        confess ("Parse error: Expected: ", $_[0], $/);
+        confess("Parse error: Expected $_[0]\n"
+                . "near character " . $self->_next_token->[2] . "\n");
     }
 }
 
@@ -356,7 +368,6 @@ sub _exponential {
 
     }
 }
-
 
 
 1;

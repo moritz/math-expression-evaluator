@@ -13,17 +13,17 @@ Math::Expression::Evaluator::Lexer - Simple Lexer
     use Math::Expression::Evaluator::Lexer qw(lex);
     # suppose you want to parse simple math expressions
     my @input_tokens = (
-        ['Int',             qr/(?:-|\+)?\d+/],
-        ['Op',              qr/\+|\*|-|\//],
-        ['Brace_Open',      qr/\(/],
-        ['Brace_Close',     qr/\)/],
-        ['Whitespace',      qr/\s/, sub { return undef; }],
+        ['Int',             qr/[+-]?\d+/ ],
+        ['Op',              qr([+-/*])   ],
+        ['Brace_Open',      qr/\(/       ],
+        ['Brace_Close',     qr/\)/       ],
+        ['Whitespace',      qr/\s+/, sub { return; }],
          );
     my $text = "-12 * (3+4)";
     my $out_tokens = lex($text, \@input_tokens);
     for (@$out_tokens){
-        my ($name, $text) = @$_;
-        print "Found Token $name: $text\n";
+        my ($name, $text, $pos) = @$_;
+        print "Found Token $name: $text (string pos: $pos)\n";
     }
 
 =head1 DESCRIPTION
@@ -48,8 +48,12 @@ function returns undef, that token will not be included in the list
 of output tokens.
 
 lex() returns an array ref to a list of output tokens, each output 
-token is a reference to a list which contains the token name and 
-the matched text.
+token is a reference to a list which contains the token name, the matched 
+text and the string position (in characters, counted from the start of
+the input string, zero based).
+
+Note that C<lex()> puts parentheses around the entire regex, so if you 
+want to use backreferences, the numbering of the capturing group is changed.
 
 =back
 
@@ -101,8 +105,8 @@ REGEXES:
                     $match = &{$_->[2]}($match);
                 }
                 if (defined $match && length $match){
-#                    push @res, [$_->[0], $match, $old_pos];
-                    push @res, [$_->[0], $match];
+                    push @res, [$_->[0], $match, $old_pos - length($match)];
+#                    push @res, [$_->[0], $match];
                 }
                 next REGEXES;
             }

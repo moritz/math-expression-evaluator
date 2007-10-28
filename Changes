@@ -2,6 +2,9 @@ Revision History for Perl module Math::Expression::Evaluator
 
 0.0.5
 - Added "See Also" list to MEE documentation
+- Lexer: track .pos in tokens
+- Parser: Annotate error messages with position
+- Documentation in Lexer.pm: more details on regex matching
 
 0.0.4 Wed Sep 19 17:51:01 CEST 2007
 - add variables() method

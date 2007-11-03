@@ -17,6 +17,7 @@ my @tests = (
         ['a + (2 + 3)',             3,  2],
         ['b + 2^3',                 3,  2],
         ['b * 2^3',                 3,  2],
+        [' - 1',                    1,  1],
         # ... indepently of their position in the AST:
         ['a + 2 * 3 + b',           4,  3],
         # ... and inside nested sub trees as well

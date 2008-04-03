@@ -1,10 +1,21 @@
 Revision History for Perl module Math::Expression::Evaluator
 
-0.0.5
+0.0.6
+- added modulo operator %
+- documented variable handling of compiled functions
+- more test cases for associativity, builtins and variables
+
+0.0.5 Mon Mar 31 13:02:29 CEST 2008
+- Added ability to compile expression to a perl function
+- Many more tests, checked with Devel::Cover
 - Added "See Also" list to MEE documentation
 - Lexer: track .pos in tokens
 - Parser: Annotate error messages with position
 - Documentation in Lexer.pm: more details on regex matching
+- non-recursive 'variables' method
+- more parse tree documentation
+- removed many trailing spaces in source code
+- simplify AST while parsing, not in a separate step
 
 0.0.4 Wed Sep 19 17:51:01 CEST 2007
 - add variables() method

@@ -1,4 +1,5 @@
-package Math::Expression::Evaluator::Optimizer;
+package # hide from PAUSE indexer
+    Math::Expression::Evaluator::Optimizer;
 use strict;
 use warnings;
 
@@ -60,10 +61,9 @@ usually have a net gain over unoptimized execution if C<< $n > 15 >>.
 Of course that value depends on the complexity of the expression, and how
 well it can be reduced by the implemented optimizations.
 
-Your best is to always benchmark what you do. If you are really serious about
-performance, you can use L<Math::Calculus::Expression> and its method 
-C<simplify>.
-
+Your best is to always benchmark what you do. Most of the time the compiled 
+version returned by C<< ->compiled >> is much faster than the optimized
+(and not compiled) form.
 =cut
 
 my %is_commutative = (

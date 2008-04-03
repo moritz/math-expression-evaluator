@@ -17,6 +17,7 @@ BEGIN {
             'a ^ (-2)',
             'a * 2 * (3 * 4)',
             'a + 2 + (3 + 4)',
+            'b = a; b * 2',
     );
     plan tests => scalar @tests;
 }

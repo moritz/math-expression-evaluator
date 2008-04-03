@@ -29,6 +29,7 @@
 \#$
 \.#
 \.rej$
+\.swp$
 
 # Avoid OS-specific files/dirs
 #   Mac OSX metadata
@@ -37,6 +38,3 @@
 \B\._
 # Avoid archives of this distribution
 \bMath-Expression-Evaluator-[\d\.\_]+
-
-# vim .swp backup files
-\.swp$

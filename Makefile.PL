@@ -2,15 +2,14 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'PL_FILES' => {},
-          'INSTALLDIRS' => 'site',
           'NAME' => 'Math::Expression::Evaluator',
-          'EXE_FILES' => [],
-          'VERSION_FROM' => 'lib/Math/Expression/Evaluator.pm',
+          'VERSION' => '0.0.6',
           'PREREQ_PM' => {
-                           'Regexp::Common' => 0,
-                           'Math::Trig' => 0,
-                           'Carp' => 0
-                         }
+                           'Carp' => '0',
+                           'Data::Dumper' => '0',
+                           'Math::Trig' => '0'
+                         },
+          'INSTALLDIRS' => 'site',
+          'PL_FILES' => {}
         )
 ;

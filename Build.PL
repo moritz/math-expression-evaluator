@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Module::Build;
+require 5.006001;
 
 my $build = Module::Build->new(
     create_readme      => 1,
@@ -9,8 +10,9 @@ my $build = Module::Build->new(
     module_name        => 'Math::Expression::Evaluator',
     dist_author        => 'Moritz Lenz',
     dist_abstract      => undef,
-    dist_version       => '0.0.5',
+    dist_version       => '0.0.6',
     requires => {
+        'perl'               => '5.6.1',
         'Carp'               => 0,
         'Math::Trig'         => 0,
         'Data::Dumper'       => 0,

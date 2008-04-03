@@ -1,6 +1,6 @@
 Revision History for Perl module Math::Expression::Evaluator
 
-0.0.6
+0.0.6 Thu Apr  3 09:09:37 CEST 2008
 - added modulo operator %
 - documented variable handling of compiled functions
 - more test cases for associativity, builtins and variables

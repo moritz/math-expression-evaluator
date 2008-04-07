@@ -227,7 +227,7 @@ Moritz Lenz, L<http://moritz.faui2k3.org/>, moritz@faui2k3.org
 
 You can obtain the latest development version via subversion:
 
-    svn co https://casella.verplant.org/svn/moritz/cpan/Math-Expression-Evaluator/
+    svn co https://faui2k3.org/svn/moritz/cpan/Math-Expression-Evaluator/
 
 =cut
 

@@ -48,9 +48,9 @@ my $m = Math::Expression::Evaluator->new();
 for (@tests) {
     my ($expr, $l1, $l2) = @$_;
     $m->parse($expr);
-    cmp_ok($m->_ast_size, '==', $l1, "Unoptimized AST size for $expr");
+    cmp_ok($m->ast_size, '==', $l1, "Unoptimized AST size for $expr");
     $m->optimize();
-    cmp_ok($m->_ast_size, '==', $l2, "Optimized AST size for $expr");
+    cmp_ok($m->ast_size, '==', $l2, "Optimized AST size for $expr");
 }
 
 # vim: expandtab

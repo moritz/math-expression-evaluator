@@ -1,5 +1,4 @@
-package # hide from PAUSE indexer
-    Math::Expression::Evaluator::Util;
+package Math::Expression::Evaluator::Util;
 
 =head1 NAME
 

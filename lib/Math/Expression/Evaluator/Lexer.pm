@@ -1,5 +1,4 @@
-package # hide from PAUSE indexer;
-    Math::Expression::Evaluator::Lexer;
+package Math::Expression::Evaluator::Lexer;
 use warnings;
 use strict;
 use Carp qw(confess);

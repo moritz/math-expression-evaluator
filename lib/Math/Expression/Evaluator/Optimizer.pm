@@ -1,5 +1,4 @@
-package # hide from PAUSE indexer
-    Math::Expression::Evaluator::Optimizer;
+package Math::Expression::Evaluator::Optimizer;
 use strict;
 use warnings;
 

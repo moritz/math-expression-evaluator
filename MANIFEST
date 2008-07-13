@@ -1,5 +1,8 @@
+benchmark.pl
 Build.PL
 Changes
+examples/evalbot.pl
+examples/simple.pl
 lib/Math/Expression/Evaluator.pm
 lib/Math/Expression/Evaluator/Lexer.pm
 lib/Math/Expression/Evaluator/Optimizer.pm
@@ -12,14 +15,18 @@ README
 t/00-use.t
 t/01-pod.t
 t/02-pod-coverage.t
+t/03-basic-usage.t
 t/builtins.t
 t/exec-fails.t
 t/infix.t
+t/lex.t
 t/multiple-expressions.t
 t/null.t
 t/numbers.t
+t/optimize-effect.t
 t/optimize.t
 t/parsefails.t
 t/precedence.t
 t/prefix.t
+t/variable_list.t
 t/variables.t

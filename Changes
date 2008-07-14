@@ -1,5 +1,8 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.1.2 Mon Jul 14 11:45:23 CEST 2008
+- fixed timestamps, they are all in the past now 
+
 0.1.1 Wed Jun 18 22:28:48 CEST 2008
 - require perl version 5.006001, not 5.6.1. Perl 5.5something doesn't
   understand the latter.

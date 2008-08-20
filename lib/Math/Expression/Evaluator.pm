@@ -280,7 +280,7 @@ sub _execute {
     my ($self, $ast) = @_;
     my %dispatch = (
             '/' => sub {my $self = shift; 1 / $self->_execute(shift)},
-            '-' => sub {my $self = shift; 0 - $self->_execute(shift)},
+            '-' => sub {my $self = shift; -$self->_execute(shift)},
             '+' => \&_exec_sum,
             '*' => \&_exec_mul,
             '%' => sub {my $self = shift; $self->_execute($_[0]) % $self->_execute($_[1]) },
@@ -307,9 +307,10 @@ sub _execute {
 # executes a sum
 sub _exec_sum {
     my $self = shift;
-    my $sum = 0;
+    # avoid addition for unary plus, for overloaded objects
+    my $sum = $self->_execute(shift);
     foreach (@_){
-        $sum += $self->_execute($_);
+        $sum = $sum + $self->_execute($_);
     }
     return $sum;
 }

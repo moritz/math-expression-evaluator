@@ -1,5 +1,8 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+- made '+' in operations work in binary context, so that overloaded objects
+  without a neutral element for addtion can work.
+
 0.1.2 Mon Jul 14 11:45:23 CEST 2008
 - fixed timestamps, they are all in the past now 
 

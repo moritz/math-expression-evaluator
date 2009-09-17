@@ -1,7 +1,10 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+
+0.1.3 Thu Sep 17 12:05:44 CEST 2009
 - made '+' in operations work in binary context, so that overloaded objects
   without a neutral element for addtion can work.
+- documentation fixes - MEE now lives on github
 
 0.1.2 Mon Jul 14 11:45:23 CEST 2008
 - fixed timestamps, they are all in the past now 

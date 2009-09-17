@@ -174,11 +174,16 @@ LICENSE
     This module is free software. You may use, redistribute and modify it
     under the same terms as perl itself.
 
-AUTHOR
-    Moritz Lenz, <http://moritz.faui2k3.org/>, moritz@faui2k3.org
+COPYRIGHT
+    Copyright (C) 2007 - 2009 Moritz Lenz, <http://perlgeek.de/>,
+    moritz@faui2k3.org
 
 DEVELOPMENT
-    You can obtain the latest development version via subversion:
+    You can obtain the latest development version from github
+    <http://github.com/moritz/math-expression-evaluator>.
 
-        svn co https://faui2k3.org/svn/moritz/cpan/Math-Expression-Evaluator/
+        git clone git://github.com/moritz/math-expression-evaluator.git
+
+    If you want to contribute something to this module, please ask me for a
+    commit bit to the github repository, I'm giving them out freely.
 

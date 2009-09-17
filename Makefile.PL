@@ -3,15 +3,15 @@ require 5.006001;
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'PL_FILES' => {},
-          'INSTALLDIRS' => 'site',
           'NAME' => 'Math::Expression::Evaluator',
-          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Math/Expression/Evaluator.pm',
           'PREREQ_PM' => {
-                           'Math::Trig' => 0,
+                           'Carp' => 0,
                            'Data::Dumper' => 0,
-                           'Carp' => 0
-                         }
+                           'Math::Trig' => 0
+                         },
+          'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [],
+          'PL_FILES' => {}
         )
 ;

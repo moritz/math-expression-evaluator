@@ -122,6 +122,20 @@ Returns a reference to the object, so that method calls can be chained:
 
 Parse failures cause this method to die with a stack trace. 
 
+You can call C<parse> on an existing Math::Expression::Evaluator object to
+re-use it, in which case previously set variables and callbacks persist
+between calls.
+
+This (perhaps contrived) example explains this:
+
+    my $m = Math::Expression::Evaluator->new('a = 3; a');
+    $m->val();
+    $m->parse('a + 5');
+    print $m->val(), "\n"   # prints 8, because a = 3 was re-used
+
+If that's not what you want, create a new object instead - the constructor is
+rather cheap.
+
 =item compiled
 
 Returns an anonymous function that is a compiled version of the current

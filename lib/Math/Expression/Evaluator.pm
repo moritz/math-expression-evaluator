@@ -175,6 +175,10 @@ either, it should die, just like the default one does.
     print $m->val();    # calls $callback, which returns 97
                         # so $m->val() return 98
 
+The callback will be called every time the variable is accessed, so if it
+requires expensive calculations, you are encouraged to cache it either
+yourself our automatically with L<Memoize>.
+
 =item ast_size
 
 C<ast_size> returns an integer which gives a crude measure of the logical

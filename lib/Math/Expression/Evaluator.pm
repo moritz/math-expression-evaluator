@@ -9,7 +9,7 @@ use Carp;
 
 use Math::Trig qw(atan asin acos tan);
 
-our $VERSION = '0.1.3';
+our $VERSION = '0.2.0';
 
 =head1 NAME
 

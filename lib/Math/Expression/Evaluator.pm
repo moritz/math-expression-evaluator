@@ -193,6 +193,15 @@ The callback will be called every time the variable is accessed, so if it
 requires expensive calculations, you are encouraged to cache it either
 yourself our automatically with L<Memoize>.
 
+=item add_user_function
+
+Allows to add a user-defined function to the internal dispatch table.
+
+    my $m = Math::Expression::Evaluator->new();
+    $m->add_user_function('abs', sub { abs($_[0]) });
+    $m->parse('abs(10.6)');
+    print $m->val();
+
 =item ast_size
 
 C<ast_size> returns an integer which gives a crude measure of the logical
@@ -396,12 +405,9 @@ sub _exec_assignment {
     return $self->{variables}{$lvalue->[1]} = $self->_execute($rvalue);
 }
 
-# executes a function call
-# currently only builtins are supported
-sub _exec_function_call {
-    my $self = shift;
-    my $name = shift;
-    my %builtin_dispatch = (
+
+sub _builtin_dispatch_table {
+    return (
             'sqrt'  => sub { sqrt $_[0] },
             'ceil'  => sub { ceil $_[0] },
             'floor' => sub { floor $_[0]},
@@ -420,8 +426,34 @@ sub _exec_function_call {
             'theta' => sub { $_[0] > 0 ? 1 : 0 },
             'pi'    => sub { 3.141592653589793 },
 
-        );
-    if (my $fun = $builtin_dispatch{$name}){
+    );
+}
+
+
+sub add_user_function {
+    my ($self, $name, $func) = @_;
+
+    $self->{_user_dispatch_table} = {}
+        unless $self->{_user_dispatch_table};
+    $self->{_user_dispatch_table}->{$name} = $func;
+}
+
+sub _user_dispatch_table {
+    my $self = shift;
+    return () unless $self->{_user_dispatch_table};
+    return %{$self->{_user_dispatch_table}};
+}
+
+# executes a function call
+sub _exec_function_call {
+    my $self = shift;
+    my $name = shift;
+
+    my @arr = $self->_builtin_dispatch_table;
+    push @arr, $self->_user_dispatch_table;
+    my %dispatch_table = @arr;
+
+    if (my $fun = $dispatch_table{$name}){
         return &$fun(map {$self->_execute($_)} @_);
     } else {
         confess("Unknown function: $name");

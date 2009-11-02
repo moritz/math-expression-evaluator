@@ -28,5 +28,6 @@ t/optimize.t
 t/parsefails.t
 t/precedence.t
 t/prefix.t
+t/user_function.t
 t/variable_list.t
 t/variables.t

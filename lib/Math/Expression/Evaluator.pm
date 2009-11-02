@@ -11,6 +11,8 @@ use Math::Trig qw(atan asin acos tan);
 
 our $VERSION = '0.3.0';
 
+=encoding UTF-8
+
 =head1 NAME
 
 Math::Expression::Evaluator - parses, compiles and evaluates mathematic expressions
@@ -285,6 +287,22 @@ L<http://github.com/moritz/math-expression-evaluator>.
 
 If you want to contribute something to this module, please ask me for
 a commit bit to the github repository, I'm giving them out freely.
+
+=head1 ACKNOWLEDGEMENTS
+
+The following people have contributed to this module, in no particular order:
+
+=over
+
+=item Leonardo Herrera
+
+Initial patch for C<set_function>
+
+=item Tina Müller
+
+Helpful feedback
+
+=back
 
 =cut
 

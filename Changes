@@ -1,5 +1,9 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.3.0
+- allow the user to add custom functions, and override built-in functions.
+  Thanks to Leonardo Herrera for the initial patch.
+
 0.2.0 Wed Oct  7 23:35:22 CEST 2009
 - allow the user to install a callback for undefined variables (much like
   AUTOLOAD in perl for subroutines)

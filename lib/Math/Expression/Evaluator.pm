@@ -9,7 +9,7 @@ use Carp;
 
 use Math::Trig qw(atan asin acos tan);
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.3.0';
 
 =head1 NAME
 
@@ -193,14 +193,19 @@ The callback will be called every time the variable is accessed, so if it
 requires expensive calculations, you are encouraged to cache it either
 yourself our automatically with L<Memoize>.
 
-=item add_user_function
+=item set_function
 
-Allows to add a user-defined function to the internal dispatch table.
+Allows to add a user-defined function, or to override a built-in function.
 
     my $m = Math::Expression::Evaluator->new();
-    $m->add_user_function('abs', sub { abs($_[0]) });
+    $m->set_function('abs', sub { abs($_[0]) });
     $m->parse('abs(10.6)');
     print $m->val();
+
+B<Warning>: This does not yet work in the compiled form. If you try it anyway,
+overridden builtin functions use the original function, new functions will
+die with an unhelpful error message during compilation. This behaviour is
+subject to future change.
 
 =item ast_size
 
@@ -406,42 +411,31 @@ sub _exec_assignment {
 }
 
 
-sub _builtin_dispatch_table {
-    return (
-            'sqrt'  => sub { sqrt $_[0] },
-            'ceil'  => sub { ceil $_[0] },
-            'floor' => sub { floor $_[0]},
-            'sin'   => sub { sin  $_[0] },
-            'asin'  => sub { asin $_[0] },
-            'cos'   => sub { cos  $_[0] },
-            'acos'  => sub { acos $_[0] },
-            'tan'   => sub { tan  $_[0] },
-            'atan'  => sub { atan $_[0] },
-            'exp'   => sub { exp  $_[0] },
-            'log'   => sub { log  $_[0] },
-            'sinh'  => sub { (exp($_[0]) - exp(-$_[0]))/2},
-            'cosh'  => sub { (exp($_[0]) + exp(-$_[0]))/2},
-            'log10' => sub { log($_[0]) / log(10) },
-            'log2'  => sub { log($_[0]) / log(2) },
-            'theta' => sub { $_[0] > 0 ? 1 : 0 },
-            'pi'    => sub { 3.141592653589793 },
-
-    );
-}
+my %builtin_dispatch_table = (
+    'sqrt'  => sub { sqrt $_[0] },
+    'ceil'  => sub { ceil $_[0] },
+    'floor' => sub { floor $_[0]},
+    'sin'   => sub { sin  $_[0] },
+    'asin'  => sub { asin $_[0] },
+    'cos'   => sub { cos  $_[0] },
+    'acos'  => sub { acos $_[0] },
+    'tan'   => sub { tan  $_[0] },
+    'atan'  => sub { atan $_[0] },
+    'exp'   => sub { exp  $_[0] },
+    'log'   => sub { log  $_[0] },
+    'sinh'  => sub { (exp($_[0]) - exp(-$_[0]))/2},
+    'cosh'  => sub { (exp($_[0]) + exp(-$_[0]))/2},
+    'log10' => sub { log($_[0]) / log(10) },
+    'log2'  => sub { log($_[0]) / log(2) },
+    'theta' => sub { $_[0] > 0 ? 1 : 0 },
+    'pi'    => sub { 3.141592653589793 },
+);
 
 
-sub add_user_function {
+sub set_function {
     my ($self, $name, $func) = @_;
 
-    $self->{_user_dispatch_table} = {}
-        unless $self->{_user_dispatch_table};
     $self->{_user_dispatch_table}->{$name} = $func;
-}
-
-sub _user_dispatch_table {
-    my $self = shift;
-    return () unless $self->{_user_dispatch_table};
-    return %{$self->{_user_dispatch_table}};
 }
 
 # executes a function call
@@ -449,12 +443,15 @@ sub _exec_function_call {
     my $self = shift;
     my $name = shift;
 
-    my @arr = $self->_builtin_dispatch_table;
-    push @arr, $self->_user_dispatch_table;
-    my %dispatch_table = @arr;
+    my %dispatch_table = %builtin_dispatch_table;
+
+    my %user_fun = %{$self->{_user_dispatch_table} || {} };
+    while (my ($k, $v) = each %user_fun) {
+        $dispatch_table{$k} = $v;
+    }
 
     if (my $fun = $dispatch_table{$name}){
-        return &$fun(map {$self->_execute($_)} @_);
+        return $fun->(map {$self->_execute($_)} @_);
     } else {
         confess("Unknown function: $name");
     }
@@ -527,7 +524,7 @@ sub _ast_to_perl {
         '%'     => &$joined_operator('%'),
         '-'     => sub {  '-(' . _ast_to_perl($_[0]) . ')' },
         '/'     => sub { '1/(' . _ast_to_perl($_[0]) . ')' },
-        '&'     => \&_builtin_to_perl,
+        '&'     => \&_function_to_perl,
     );
     my ($action, @rest) = @$ast;
     my $do = $translations{$action};
@@ -538,7 +535,7 @@ sub _ast_to_perl {
     }
 }
 
-sub _builtin_to_perl {
+sub _function_to_perl {
     my ($name, @args) = @_;
     my %builtins = (
         sqrt    => sub {  "sqrt($_[0])" },
@@ -561,7 +558,7 @@ sub _builtin_to_perl {
     );
     my $do = $builtins{$name};
     if ($do){
-       return &$do(map { _ast_to_perl($_) } @args );
+       return $do->(map { _ast_to_perl($_) } @args );
     } else {
         confess "Unknow function '$name'";
     }

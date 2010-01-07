@@ -14,7 +14,7 @@ Math::Expression::Evaluator::Lexer - Simple Lexer
     # suppose you want to parse simple math expressions
     my @input_tokens = (
         ['Int',             qr/[+-]?\d+/ ],
-        ['Op',              qr([+-/*])   ],
+        ['Op',              qr{[+-/*]}   ],
         ['Brace_Open',      qr/\(/       ],
         ['Brace_Close',     qr/\)/       ],
         ['Whitespace',      qr/\s+/, sub { return; }],
@@ -80,9 +80,16 @@ sub lex {
     my ($text, $tokens) = @_;
     confess("passed undefined value to lex()") unless defined $text;
     my $l = length $text;
-    return [] unless ($l);
+    return [] unless $l;
 
-    my $old_pos = 0;
+    my ($last_line_number, $last_pos) = (0, 0);
+    my $pos_and_line_number = sub {
+        my $pos = shift;
+        $last_line_number +=
+            (substr($text, $last_pos, $pos - $last_pos) =~ tr/\n//);
+        $last_pos = $pos;
+        return ($pos, $last_line_number + 1);
+    };
 
     my @res;
 
@@ -103,12 +110,20 @@ REGEXES:
                     confess("Each token has to require at least one "
                             . "character; Rule $_->[0] matched Zero!\n");
                 }
+
+                # safe information before callbacks can modify $match
+                # and thus length($match)
+                my $pos = pos($text) - length($match);
+
                 if ($_->[2]){
-                    $match = &{$_->[2]}($match);
+                    $match = $_->[2]->($match);
                 }
-                if (defined $match && length $match){
-                    push @res, [$_->[0], $match, pos($text) - length($match)];
-#                    push @res, [$_->[0], $match];
+                if (defined $match){
+                    push @res, [
+                        $_->[0],
+                        $match,
+                        $pos_and_line_number->($pos),
+                    ];
                 }
                 next REGEXES;
             }

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 64 }
+BEGIN { plan tests => 65 }
 
 use Math::Expression::Evaluator;
 
@@ -67,4 +67,10 @@ eval {
 };
 
 ok $@, 'dies while calling undefined function';
+
+eval {
+    $m->compiled->({ a => 1, b => 2, c => 3 });
+};
+
+ok $@, 'dies while calling undefined function (compiled)';
 

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 14 }
+BEGIN { plan tests => 15 }
 
 use Math::Expression::Evaluator;
 
@@ -58,5 +58,7 @@ is &{$m->parse('b')->compiled}, 5, 'compiled expressions can use prev. defined v
     is $m->compiled->(), 5, 'same with compiled form';
 }
 
+eval { $m->parse(' 3 + 8 = 5 ') };
+ok $@, 'non-lvalue cannot be assigned to';
 
 # vim: sw=4 ts=4 expandtab syn=perl

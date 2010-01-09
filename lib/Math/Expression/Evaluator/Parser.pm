@@ -254,8 +254,8 @@ sub _statement {
     }
 
     if ($self->{config}->{force_semicolon}){
-# forced semicolon at the and of a statement, but last statement
-# isn't forced to have one.
+# forced semicolon between two statements (but the last statement
+# isn't forced to have one):
         if ($self->_next_token()){
             $self->_match("Colon");
         }
@@ -354,7 +354,7 @@ sub _factor {
 }
 
 # <exponential> ::= <factor> [ '^' <factor>]?
-# note that 2**3**4 is not defined
+# note that 2^3^4 is not defined, ie ^ is not associative
 sub _exponential {
     my $self = shift;
     my $val = $self->_factor();

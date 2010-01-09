@@ -134,8 +134,9 @@ sub parse {
 sub _is_next_token {
     my $self = shift;
     my $cmp = shift;
-    if (defined $self->_next_token() && $self->_next_token()->[0] eq $cmp){
-        return $self->_next_token->[1];
+    my $next = $self->{tokens}[$self->{token_pointer}];
+    if (defined $next && $next->[0] eq $cmp){
+        return $next->[1];
     }
 }
 
@@ -161,8 +162,7 @@ sub _proceed {
 
 # returns the next not-yet-parsed token
 sub _next_token {
-    my $self = shift;
-    return $self->{tokens}[$self->{token_pointer}];
+    return $_[0]->{tokens}[$_[0]->{token_pointer}];
 }
 
 # program -> statement*

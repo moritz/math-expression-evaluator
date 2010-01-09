@@ -197,8 +197,9 @@ sub _match {
     my $self = shift;
     my $m = shift;
     my $val;
-    confess("Expected $m, got EOF") unless ref $self->_next_token();
-    if ($self->_next_token()->[0] eq $m){
+    my $next = $self->_next_token();
+    confess("Expected $m, got EOF") unless ref $next;
+    if ($next->[0] eq $m){
         $val = $self->_next_token()->[1];
         $self->_proceed();
         return $val;

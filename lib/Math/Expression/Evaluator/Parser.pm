@@ -26,6 +26,11 @@ turns it into an Abstract Syntax Tree (AST).
 If you want to have a simple interface and want to evaluate these
 ASTs, use L<Math::Expression::Evaluator>.
 
+The following description of the AST structure matches the current
+implementation, but really is an implementation detail that's subject to
+change without further notice. In particular a possible addition of meta
+information (like file and line numbers) might require a change of structure.
+
 The AST is a tree that consists of nested array refs. The first item
 is a string (until now always a single character), and denotes the type
 of the node. The rest of the items in the array is a list of its arguments.

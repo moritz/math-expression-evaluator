@@ -258,7 +258,8 @@ Modulo operator produces an unnecessary big AST, making it relatively slow
 
 The AST can be accessed as C<$obj->{ast}>. Its structure is described in 
 L<Math::Expression::Evaluator::Parser> (or you can use L<Data::Dumper> 
-to figure it out for yourself).
+to figure it out for yourself). Note that the exact form of the AST is
+considered to be an implementation detail, and subject to change.
 
 =head1 SEE ALSO
 

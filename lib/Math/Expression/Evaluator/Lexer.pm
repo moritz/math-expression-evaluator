@@ -37,7 +37,7 @@ into tokens, depending on the input tokens you provide
 
 =item lex
 
-The only exported method is lex, which expects input text as its 
+The only exported routine is lex, which expects input text as its 
 first argument and a array ref to list of input tokens.
 
 Each input token consists of a token name (which you can choose freely), 
@@ -45,12 +45,13 @@ a regex which matches the desired token, and optionally a reference to
 a functions that takes the matched token text as its argument. The 
 token text is replaced by the return value of that function. If the 
 function returns undef, that token will not be included in the list 
-of output tokens.
+of output tokens. The regex should either fail or match at least one
+character; zero-width matches utterly confuse the lexer, and are disallowed.
 
 lex() returns an array ref to a list of output tokens, each output 
 token is a reference to a list which contains the token name, the matched 
-text and the string position (in characters, counted from the start of
-the input string, zero based).
+text, the string position (in characters, counted from the start of
+the input string, zero based) and the line number.
 
 Note that C<lex()> puts parentheses around the entire regex, so if you 
 want to use backreferences, the numbering of the capturing group is changed.

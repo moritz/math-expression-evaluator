@@ -350,12 +350,12 @@ sub optimize {
 sub _execute {
     my ($self, $ast) = @_;
     my %dispatch = (
-            '/' => sub {my $self = shift; 1 / $self->_execute(shift)},
-            '-' => sub {my $self = shift; -$self->_execute(shift)},
+            '/' => sub {1 / $_[0]->_execute($_[1])},
+            '-' => sub {-$_[0]->_execute($_[1])},
             '+' => \&_exec_sum,
             '*' => \&_exec_mul,
-            '%' => sub {my $self = shift; $self->_execute($_[0]) % $self->_execute($_[1]) },
-            '^' => sub {my $self = shift; $self->_execute(shift) **  $self->_execute(shift)},
+            '%' => sub {$_[0]->_execute($_[1]) % $_[0]->_execute($_[2]) },
+            '^' => sub {$_[0]->_execute($_[1]) **  $self->_execute($_[2])},
             '=' => \&_exec_assignment,
             '&' => \&_exec_function_call,
             '{' => \&_exec_block,
@@ -371,7 +371,7 @@ sub _execute {
             confess ("Operator '$op' not yet implemented\n");
         }
     } else {
-        return $ast;
+        $ast;
     }
 }
 
@@ -407,7 +407,7 @@ sub _exec_block {
     foreach (@_){
         $res = $self->_execute($_);
     }
-    return $res;
+    $res;
 }
 
 # executes a multiplication 
@@ -417,7 +417,7 @@ sub _exec_mul {
     foreach (@_){
         $prod *= $self->_execute($_);
     }
-    return $prod;
+    $prod;
 }
 
 # executes an _assignment

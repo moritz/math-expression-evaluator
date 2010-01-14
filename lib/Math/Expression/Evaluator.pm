@@ -204,11 +204,6 @@ Allows to add a user-defined function, or to override a built-in function.
     $m->parse('abs(10.6)');
     print $m->val();
 
-B<Warning>: This does not yet work in the compiled form. If you try it anyway,
-overridden builtin functions use the original function, new functions will
-die with an unhelpful error message during compilation. This behaviour is
-subject to future change.
-
 =item ast_size
 
 C<ast_size> returns an integer which gives a crude measure of the logical
@@ -523,27 +518,27 @@ sub variables {
 # emit perl code for an AST.
 # needed for compiling an expression into a anonymous sub
 sub _ast_to_perl {
-    my $ast = shift;
+    my ($self, $ast) = @_;;
     return $ast unless ref $ast;
 
     my $joined_operator = sub {
         my $op = shift;
         return sub {
-            join $op, map { '(' . _ast_to_perl($_).  ')' } @_
+            join $op, map { '(' . $self->_ast_to_perl($_).  ')' } @_
         };
     };
 
     my %translations = (
         '$'     => sub { qq/( exists \$vars{$_[0]} ? \$vars{$_[0]} : exists \$default_vars{$_[0]} ? \$default_vars{$_[0]} : \$self->{var_callback}->("$_[0]")) / },
-        '{'     => sub { join "\n", map { _ast_to_perl($_) . ";" } @_ },
-        '='     => sub { qq/\$vars{$_[0][1]} = / . _ast_to_perl($_[1]) },
+        '{'     => sub { join "\n", map { $self->_ast_to_perl($_) . ";" } @_ },
+        '='     => sub { qq/\$vars{$_[0][1]} = / . $self->_ast_to_perl($_[1]) },
         '+'     => &$joined_operator('+'),
         '*'     => &$joined_operator('*'),
         '^'     => &$joined_operator('**'),
         '%'     => &$joined_operator('%'),
-        '-'     => sub {  '-(' . _ast_to_perl($_[0]) . ')' },
-        '/'     => sub { '1/(' . _ast_to_perl($_[0]) . ')' },
-        '&'     => \&_function_to_perl,
+        '-'     => sub {  '-(' . $self->_ast_to_perl($_[0]) . ')' },
+        '/'     => sub { '1/(' . $self->_ast_to_perl($_[0]) . ')' },
+        '&'     => sub { $self->_function_to_perl(@_) },
     );
     my ($action, @rest) = @$ast;
     my $do = $translations{$action};
@@ -554,8 +549,7 @@ sub _ast_to_perl {
     }
 }
 
-sub _function_to_perl {
-    my ($name, @args) = @_;
+{
     my %builtins = (
         sqrt    => sub {  "sqrt($_[0])" },
         ceil    => sub {  "ceil($_[0])" },
@@ -575,11 +569,20 @@ sub _function_to_perl {
         theta   => sub { "$_[0] > 0 ? 1 : 0" },
         pi      => sub { "3.141592653589793" },
     );
-    my $do = $builtins{$name};
-    if ($do){
-       return $do->(map { _ast_to_perl($_) } @args );
-    } else {
-        confess "Unknow function '$name'";
+
+    sub _function_to_perl {
+        my ($self, $name, @args) = @_;
+        if ($self->{_user_dispatch_table}->{$name}) {
+            return qq[\$user_functions{'$name'}->(]
+                   . join(',', map { $self->_ast_to_perl($_) } @args)
+                   . qq[)];
+        }
+        my $do = $builtins{$name};
+        if ($do){
+            return $do->(map { $self->_ast_to_perl($_) } @args );
+        } else {
+            confess "Unknow function '$name'";
+        }
     }
 }
 
@@ -587,6 +590,11 @@ sub compiled {
     my $self = shift;
     local $Data::Dumper::Indent = 0;
     local $Data::Dumper::Terse  = 1;
+
+    # the eval will close over %user_functions
+    # if it contains any calls to it. Closures FTW!
+    my %user_functions = %{ $self->{_user_dispatch_table} || {} };
+
     my $text = <<'CODE';
 sub {
     my %vars = %{; shift || {} };
@@ -596,12 +604,11 @@ sub {
 CODE
     chomp $text;
     $text .= Dumper($self->{variables}) . "};\n    ";
-    $text .= _ast_to_perl($self->{ast});
+    $text .= $self->_ast_to_perl($self->{ast});
     $text .= "\n}\n";
 #    print STDERR "\n$text";
     my $res =  eval $text;
     confess "Internal error while compiling: $@" if $@;
-#    warn ref $res, $/;
     return $res;
 }
 

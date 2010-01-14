@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 11 }
+BEGIN { plan tests => 13 }
 
 use Math::Expression::Evaluator;
 
@@ -36,5 +36,15 @@ is c('round(0.9)'),      1, 'round(0.9) - compiled';
 $m->set_function('sin', sub { 42 });
 is e('sin(4)'), 42, 'can override built-in functions';
 is c('sin(4)'), 42, 'can override built-in functions (compiled)';
+
+my $compiled = $m->compiled();
+$m->set_function('sin', sub { -23 });
+is $compiled->(), 42,
+    'compiling first and then resetting user function leaves compiled code unchanged';
+
+$m->set_function('f', sub { 42 });
+$compiled = $m->parse('f()')->compiled;
+$m->set_function('f', sub { -23 });
+is $compiled->(), 42, 'same for non-builtin function';
 
 # vim: sw=4 ts=4 expandtab syn=perl

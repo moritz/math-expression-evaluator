@@ -204,6 +204,16 @@ Allows to add a user-defined function, or to override a built-in function.
     $m->parse('abs(10.6)');
     print $m->val();
 
+If you first compile the expression to a perl closure and then call
+C<<$m->set_function>> again, the compiled function stays unaffected, so
+
+    $m->set_function('f', sub { 42 });
+    my $compiled = $m->parse('f')->compiled;
+    $m->set_function('f', sub { -23 });
+    print $compiled->();
+
+print out C<42>, not C<-23>.
+
 =item ast_size
 
 C<ast_size> returns an integer which gives a crude measure of the logical

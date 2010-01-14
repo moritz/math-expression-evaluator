@@ -2,3 +2,8 @@
 blib/
 _build
 Build
+nytprof*
+cover_db
+MANIFEST
+foo.pl
+test.pl

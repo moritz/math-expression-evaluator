@@ -1,6 +1,6 @@
 Revision History for Perl module Math::Expression::Evaluator
 
-0.3.0
+0.3.0 Fri Jan 15 11:28:02 CET 2010
 - allow the user to add custom functions, and override built-in functions.
   Thanks to Leonardo Herrera for the initial patch.
 

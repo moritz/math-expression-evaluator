@@ -39,3 +39,6 @@
 \B\._
 # Avoid archives of this distribution
 \bMath-Expression-Evaluator-[\d\.\_]+
+
+nytprof*
+foo.pl

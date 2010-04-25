@@ -9,7 +9,7 @@ use Carp;
 
 use Math::Trig qw(atan asin acos tan);
 
-our $VERSION = '0.3.0';
+our $VERSION = '0.3.1';
 
 =encoding UTF-8
 

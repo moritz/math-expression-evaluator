@@ -42,3 +42,4 @@
 
 nytprof*
 foo.pl
+^MYMETA.yml$

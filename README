@@ -4,7 +4,7 @@ NAME
 
 SYNOPSIS
         use Math::Expression::Evaluator;
-        my $m = new Math::Expression::Evaluator;
+        my $m = Math::Expression::Evaluator->new;
 
         print $m->parse("a = 12; a*3")->val(), "\n";
         # prints 36
@@ -82,6 +82,20 @@ METHODS
 
       Parse failures cause this method to die with a stack trace.
 
+      You can call "parse" on an existing Math::Expression::Evaluator object
+      to re-use it, in which case previously set variables and callbacks
+      persist between calls.
+
+      This (perhaps contrived) example explains this:
+
+          my $m = Math::Expression::Evaluator->new('a = 3; a');
+          $m->val();
+          $m->parse('a + 5');
+          print $m->val(), "\n"   # prints 8, because a = 3 was re-used
+
+      If that's not what you want, create a new object instead - the
+      constructor is rather cheap.
+
     compiled
       Returns an anonymous function that is a compiled version of the
       current expression. It is much faster to execute than the other
@@ -102,7 +116,7 @@ METHODS
       expression is evaluated to. It accepts an optional hash reference that
       contain values for variables:
 
-          my $m = new MathExpr;
+          my $m = MathExpr->new;
           $m->parse("(x - 1) / (x + 1)");
           foreach (0 .. 10) {
               print $_, "\t", $m->val({x => $_}), "\n";
@@ -120,6 +134,43 @@ METHODS
     variables
       "variables()" returns a list of variables that are used in the
       expression.
+
+    set_var_callback
+      Allows you to set a callback which the Match::Expression::Evaluator
+      object calls when it can't find a variable. The name of the variable
+      is passed in as the first argument. If the callback function can't
+      handle that variable either, it should die, just like the default one
+      does.
+
+          my $m = Math::Expression::Evaluator->new();
+          $m->parse('1 + a');
+          my $callback = sub { ord($_[0]) };
+          $m->set_var_callback($callback);
+          print $m->val();    # calls $callback, which returns 97
+                              # so $m->val() return 98
+
+      The callback will be called every time the variable is accessed, so if
+      it requires expensive calculations, you are encouraged to cache it
+      either yourself our automatically with Memoize.
+
+    set_function
+      Allows to add a user-defined function, or to override a built-in
+      function.
+
+          my $m = Math::Expression::Evaluator->new();
+          $m->set_function('abs', sub { abs($_[0]) });
+          $m->parse('abs(10.6)');
+          print $m->val();
+
+      If you first compile the expression to a perl closure and then call
+      "<$m-"set_function>> again, the compiled function stays unaffected, so
+
+          $m->set_function('f', sub { 42 });
+          my $compiled = $m->parse('f')->compiled;
+          $m->set_function('f', sub { -23 });
+          print $compiled->();
+
+      print out 42, not -23.
 
     ast_size
       "ast_size" returns an integer which gives a crude measure of the
@@ -161,7 +212,8 @@ BUGS AND LIMITATIONS
 INTERNALS
     The AST can be accessed as "$obj-"{ast}>. Its structure is described in
     Math::Expression::Evaluator::Parser (or you can use Data::Dumper to
-    figure it out for yourself).
+    figure it out for yourself). Note that the exact form of the AST is
+    considered to be an implementation detail, and subject to change.
 
 SEE ALSO
     Math::Expression also evaluates mathematical expressions, but also
@@ -186,4 +238,14 @@ DEVELOPMENT
 
     If you want to contribute something to this module, please ask me for a
     commit bit to the github repository, I'm giving them out freely.
+
+ACKNOWLEDGEMENTS
+    The following people have contributed to this module, in no particular
+    order:
+
+    Leonardo Herrera
+        Initial patch for "set_function"
+
+    Tina Müller
+        Helpful feedback
 

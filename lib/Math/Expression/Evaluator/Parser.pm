@@ -217,6 +217,9 @@ sub _value {
         return $self->_function_call();
     } elsif ($self->_is_next_token("Name")){
         return $self->_get_variable();
+    } elsif ($self->_lookahead(qw/AddOp Float/)) {
+        my $sign = $self->_match('AddOp');
+        return ("$sign".1) * $self->_match('Float');
     } else {
         return $self->_match("Float");
     }

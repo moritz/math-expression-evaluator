@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 17 }
+BEGIN { plan tests => 16 }
 
 use Math::Expression::Evaluator;
 
@@ -27,7 +27,6 @@ parse_fail '1+',        'Dangling infix operator +';
 parse_fail '1-',        'Dangling infix operator -';
 parse_fail '(1+2',      'unbalanced parenthesis 1';
 parse_fail '1+2)',      'unbalanced parenthesis 2';
-parse_fail '1 + - 2',   'two operators in a row 1';
 parse_fail '1 ** 2',    'two operators in a row 2';
 
 parse_fail '3 = 4',     'assignment to non-lvalue 1';

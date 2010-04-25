@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 73 }
+BEGIN { plan tests => 76 }
 
 use Math::Expression::Evaluator;
 
@@ -26,6 +26,7 @@ my @tests = (
     ['1+4/2',      3,      '/ over +'],
     ['1-4/2',      -1,     '/ over -'],
     ['3*2^4',      48,     '^ over *'],
+    ['4*2^-2',      1,     '^ with negative number'],
     ['3-2^4',      -13,    '^ over -'],
     ['3+2^4',      19,     '^ over +'],
     ['16/2^3',     2,      '^ over /'],

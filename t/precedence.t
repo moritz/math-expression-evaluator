@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 76 }
+BEGIN { plan tests => 82 }
 
 use Math::Expression::Evaluator;
 
@@ -21,6 +21,7 @@ sub c {
 
 my @tests = (
     ['1+2*3',      7,      '* over +'],
+    ['1+2*-3',     -5,      '*-3'],
     ['1+3%2',       2,     '% over +'],
     ['1-2*3',      -5,     '* over -'],
     ['1+4/2',      3,      '/ over +'],
@@ -31,6 +32,7 @@ my @tests = (
     ['3+2^4',      19,     '^ over +'],
     ['16/2^3',     2,      '^ over /'],
     ['16%3^2',     7,      '^ over %'],
+    ['2 * 2 **4', 32,      'power ** tighter than multiplication'],
     ['2*3%5',      1,      '* and % evaluate left to right 1'],
     ['3%5*2',      6,      '* and % evaluate left to right 2'],
     ['12/2%5',     1,      '/ and % evaluate left to right 1'],

@@ -27,7 +27,7 @@ parse_fail '1+',        'Dangling infix operator +';
 parse_fail '1-',        'Dangling infix operator -';
 parse_fail '(1+2',      'unbalanced parenthesis 1';
 parse_fail '1+2)',      'unbalanced parenthesis 2';
-parse_fail '1 ** 2',    'two operators in a row 2';
+parse_fail '1 + * 2',    'two operators in a row 2';
 
 parse_fail '3 = 4',     'assignment to non-lvalue 1';
 parse_fail 'a + b = 4', 'assignment to non-lvalue 2';

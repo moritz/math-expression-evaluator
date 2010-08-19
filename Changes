@@ -1,5 +1,8 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.3.2 Thu Aug 19 13:58:26 CEST 2010
+- allow ** for powers as alias to ^
+
 0.3.1 Sun Apr 25 13:41:00 CEST 2010
 - avoid indirect method call syntax in documentation
 - fix [cpan #55709], signed numbers in exponentials

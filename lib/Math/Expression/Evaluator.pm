@@ -9,7 +9,7 @@ use Carp;
 
 use Math::Trig qw(atan asin acos tan);
 
-our $VERSION = '0.3.1';
+our $VERSION = '0.3.2';
 
 =encoding UTF-8
 
@@ -42,7 +42,7 @@ Math::Expression::Evaluator - parses, compiles and evaluates mathematic expressi
 
 Math::Expression::Evaluator is a parser, compiler and interpreter for 
 mathematical expressions. It can handle normal arithmetics 
-(includings powers ^), builtin functions like sin() and variables.
+(includings powers wit C<^> or C<**>), builtin functions like sin() and variables.
 
 Multiplication C<*>, division C</> and modulo C<%> have the same precedence,
 and are evaluated left to right. The modulo operation follows the standard
@@ -361,6 +361,7 @@ sub _execute {
             '*' => \&_exec_mul,
             '%' => sub {$_[0]->_execute($_[1]) % $_[0]->_execute($_[2]) },
             '^' => sub {$_[0]->_execute($_[1]) **  $self->_execute($_[2])},
+            '**' => sub {$_[0]->_execute($_[1]) **  $self->_execute($_[2])},
             '=' => \&_exec_assignment,
             '&' => \&_exec_function_call,
             '{' => \&_exec_block,

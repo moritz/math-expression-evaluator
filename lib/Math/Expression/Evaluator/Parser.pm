@@ -90,7 +90,7 @@ use Data::Dumper;
 
 
 my @input_tokens = (
-        ['ExpOp'            => '\^'],
+        ['ExpOp'            => '\^|\*\*'],
         ['MulOp'            =>  qr{[*/%]}],
         ['AddOp'            => '\+|-'],
 # This regex is 'stolen' from Regexp::Common, and a bit simplified

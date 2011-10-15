@@ -1,5 +1,9 @@
 Revision History for Perl module Math::Expression::Evaluator
 
+0.3.3 2011-10-15
+- disallow "2x" (used to be parsed as "2; x")
+- doc fixes
+
 0.3.2 Thu Aug 19 13:58:26 CEST 2010
 - allow ** for powers as alias to ^
 

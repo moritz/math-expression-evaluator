@@ -95,7 +95,7 @@ my @input_tokens = (
         ['AddOp'            => '\+|-'],
 # This regex is 'stolen' from Regexp::Common, and a bit simplified
 # Copyright by Damian Conway and Abigail, 2001-2005
-        ['Float'            => "[+-]?(?=[0-9]|[.])[0-9]*(?:[.][0-9]*)?(?:[eE](?:[+-]?[0-9]+)|)"],
+        ['Float'            => qr/(?>[+-]?(?=[0-9]|[.])[0-9]*(?:[.][0-9]*)?(?:[eE](?:[+-]?[0-9]+)|))(?!\w)/],
         ['OpenParen'        => '\('],
         ['ClosingParen'     => '\)'],
         ['Colon'            => ';'],

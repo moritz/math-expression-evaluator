@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-BEGIN { plan tests => 16 }
+BEGIN { plan tests => 17 }
 
 use Math::Expression::Evaluator;
 
@@ -33,6 +33,7 @@ parse_fail '3 = 4',     'assignment to non-lvalue 1';
 parse_fail 'a + b = 4', 'assignment to non-lvalue 2';
 
 parse_fail '&',         'lex failure: disallowed token';
+parse_fail '2x',        '2x (number followed by variable)';
 
 # force a semicolon between statements:
 $m = Math::Expression::Evaluator->new({force_semicolon => 1});

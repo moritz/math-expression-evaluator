@@ -24,7 +24,7 @@ SYNOPSIS
 DESCRIPTION
     Math::Expression::Evaluator is a parser, compiler and interpreter for
     mathematical expressions. It can handle normal arithmetics (includings
-    powers ^), builtin functions like sin() and variables.
+    powers with "^" or "**"), builtin functions like sin() and variables.
 
     Multiplication "*", division "/" and modulo "%" have the same
     precedence, and are evaluated left to right. The modulo operation

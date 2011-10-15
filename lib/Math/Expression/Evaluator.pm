@@ -25,9 +25,9 @@ Math::Expression::Evaluator - parses, compiles and evaluates mathematic expressi
     print $m->parse("a = 12; a*3")->val(), "\n";
     # prints 36
     print $m->parse("2^(a/3)")->val(), "\n";
-    # prints 8 (ie 2**3)
+    # prints 16 (ie 2**4)
     print $m->parse("a / b")->val({ b => 6 }), "\n";
-    # prints 36
+    # prints 2
     print $m->parse("log2(16)")->val(), "\n";
     # prints 4
 

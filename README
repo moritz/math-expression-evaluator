@@ -9,9 +9,9 @@ SYNOPSIS
         print $m->parse("a = 12; a*3")->val(), "\n";
         # prints 36
         print $m->parse("2^(a/3)")->val(), "\n";
-        # prints 8 (ie 2**3)
+        # prints 16 (ie 2**4)
         print $m->parse("a / b")->val({ b => 6 }), "\n";
-        # prints 36
+        # prints 2
         print $m->parse("log2(16)")->val(), "\n";
         # prints 4
 
@@ -24,7 +24,7 @@ SYNOPSIS
 DESCRIPTION
     Math::Expression::Evaluator is a parser, compiler and interpreter for
     mathematical expressions. It can handle normal arithmetics (includings
-    powers with "^" or "**"), builtin functions like sin() and variables.
+    powers wit "^" or "**"), builtin functions like sin() and variables.
 
     Multiplication "*", division "/" and modulo "%" have the same
     precedence, and are evaluated left to right. The modulo operation
@@ -246,6 +246,6 @@ ACKNOWLEDGEMENTS
     Leonardo Herrera
         Initial patch for "set_function"
 
-    Tina Müller
+    Tina MÃ¼ller
         Helpful feedback
 

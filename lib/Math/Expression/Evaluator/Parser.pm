@@ -167,7 +167,7 @@ sub _next_token {
 
 # program -> statement*
 # parse a program, e.g. a collection of statements.
-# The corrsponding AST looks like this: ['{', $s1, $s2, $s3, ... ]
+# The corresponding AST looks like this: ['{', $s1, $s2, $s3, ... ]
 sub _program {
     my $self = shift;
     my @res = ('{');
